@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Speleologist</class>
+ <widget class="QMainWindow" name="Speleologist">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1097</width>
+    <height>679</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Berlin Sans FB</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="solveButton">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>80</y>
+      <width>141</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Solve</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="algorithmsComboBox">
+    <property name="geometry">
+     <rect>
+      <x>810</x>
+      <y>20</y>
+      <width>261</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Select Algorithm...</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Djkstra</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>A*</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QCheckBox" name="twoWayCheckBox">
+    <property name="geometry">
+     <rect>
+      <x>810</x>
+      <y>60</y>
+      <width>111</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Two Way</string>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="textBrowser">
+    <property name="geometry">
+     <rect>
+      <x>810</x>
+      <y>120</y>
+      <width>261</width>
+      <height>501</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="graphWidget" native="true">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>781</width>
+      <height>621</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1097</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionOpen"/>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuInteract">
+    <property name="title">
+     <string>Interact</string>
+    </property>
+    <addaction name="actionSolve"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuInteract"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionOpen">
+   <property name="text">
+    <string>Open</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionSolve">
+   <property name="text">
+    <string>Solve!</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
