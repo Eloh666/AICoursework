@@ -1,45 +1,58 @@
-import os
 import numpy
 import networkx as nx
+import math
 
-class GraphsParser:
+def euclideanDistance(a, b):
+    x = pow(a[0] - b[0], 2)
+    y = pow(a[1] - b[1], 2)
+    return math.sqrt(x+y)
 
-    def __init__(self, filePath, fileName):
+class CavernsNetwork:
+
+    def __init__(self, fileName):
         self.fileName = fileName
-        self.filePath = filePath
 
-    def readFile(self):
-        fullPath = os.path.abspath(self.filePath + self.fileName)
-        with open(fullPath, 'r') as cavernsFile:
+        # Parses basic file into a graph
+        self.__coordinates = []
+        self.__cavernData = self.__readFile().split(',')
+        self.__numberCoordinats = int(self.__cavernData[0], 10)
+
+        # Generates advanced structures from the data
+        self.graph = self.__parseGraph()
+        self.matrix = self.__parseMatrix()
+        self.__computeEdges()
+
+        # Selects source and destination
+        self.source = self.graph.nodes(0)
+        self.target = self.graph.nodes(len(self.graph.nodes()))
+
+    def __readFile(self):
+        with open(self.fileName, 'r') as cavernsFile:
             return cavernsFile.read().replace('\n', '')
 
-    def parseGraph(self, numNodes, list):
+    def __parseGraph(self):
+        coordsData = self.__cavernData[1: (2 * self.__numberCoordinats) + 1]
+        parsedCoordsData = list(map(lambda x: int(x, 10), coordsData))
+        self.__coordinates = list(zip(parsedCoordsData, parsedCoordsData[1:]))[::2]
 
         graph = nx.DiGraph()
-        data = numpy.matrix(list).reshape(numNodes, 2)
-        for index, value in enumerate(data):
+        for index, value in enumerate(self.__coordinates):
             graph.add_node(index, coords=tuple(numpy.squeeze(numpy.asarray(value))))
         return graph
 
-    def parseMatrix(self, list):
-        return numpy.matrix(list).reshape(7, 7)
-
-    def computeEdges(self, graph, matrix):
-        for (x, y), value in numpy.ndenumerate(matrix):
+    def __computeEdges(self):
+        for (x, y), value in numpy.ndenumerate(self.matrix):
             if int(value) == 1:
-                graph.add_edge(y, x)
+                source = self.__coordinates[x]
+                dest = self.__coordinates[y]
+                self.graph.add_edge(
+                    y,
+                    x,
+                    weight=round(euclideanDistance(source, dest), 2)
+                )
+
+    def __parseMatrix(self):
+        matrixData = self.__cavernData[(2 * self.__numberCoordinats) + 1:]
+        return numpy.matrix(matrixData).reshape(self.__numberCoordinats, self.__numberCoordinats)
 
 
-    def parseFile(self):
-        cavernData = self.readFile().split(',')
-        if not cavernData or len(cavernData) < 1:
-            return None
-        numberCoordinats = int(cavernData[0], 10)
-        coordsData = cavernData[1: (2 * numberCoordinats) + 1]
-        matrixData = cavernData[(2 * numberCoordinats) + 1:]
-
-        matrix = self.parseMatrix(matrixData)
-        graph = self.parseGraph(numberCoordinats, coordsData)
-
-        self.computeEdges(graph, matrix)
-        return graph

@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1097</width>
-    <height>679</height>
+    <width>1620</width>
+    <height>900</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="font">
    <font>
@@ -23,8 +29,8 @@
    <widget class="QPushButton" name="solveButton">
     <property name="geometry">
      <rect>
-      <x>930</x>
-      <y>80</y>
+      <x>1460</x>
+      <y>70</y>
       <width>141</width>
       <height>23</height>
      </rect>
@@ -36,8 +42,8 @@
    <widget class="QComboBox" name="algorithmsComboBox">
     <property name="geometry">
      <rect>
-      <x>810</x>
-      <y>20</y>
+      <x>1340</x>
+      <y>10</y>
       <width>261</width>
       <height>22</height>
      </rect>
@@ -61,8 +67,8 @@
    <widget class="QCheckBox" name="twoWayCheckBox">
     <property name="geometry">
      <rect>
-      <x>810</x>
-      <y>60</y>
+      <x>1340</x>
+      <y>40</y>
       <width>111</width>
       <height>17</height>
      </rect>
@@ -74,10 +80,10 @@
    <widget class="QTextBrowser" name="textBrowser">
     <property name="geometry">
      <rect>
-      <x>810</x>
-      <y>120</y>
+      <x>1340</x>
+      <y>110</y>
       <width>261</width>
-      <height>501</height>
+      <height>741</height>
      </rect>
     </property>
    </widget>
@@ -86,8 +92,8 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>781</width>
-      <height>621</height>
+      <width>1300</width>
+      <height>841</height>
      </rect>
     </property>
    </widget>
@@ -97,7 +103,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1097</width>
+     <width>1620</width>
      <height>21</height>
     </rect>
    </property>
@@ -106,6 +112,7 @@
      <string>File</string>
     </property>
     <addaction name="actionOpen"/>
+    <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menuInteract">
