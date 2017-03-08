@@ -189,7 +189,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="playButton">
+      <widget class="QPushButton" name="stepButton">
        <property name="toolTip">
         <string>Step through</string>
        </property>

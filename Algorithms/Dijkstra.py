@@ -1,69 +1,11 @@
 from heapq import heappush, heappop
-from itertools import count
-import networkx as nx
+from Algorithms.AlgorithmWrapper import AlgorithmWrapper
 
+class Dijkstra(AlgorithmWrapper):
 
-class Dijkstra:
-    def __init__(self, network, log, weight='weight', renderer=None):
-        self.weight = weight
-        self.log = log
-        self.graph = network.graph
-        self.source = network.source
-        self.target = network.target
-        self.coordinates = network.coordinates
+    def bidirectionalDijkstra(self, stepping=False):
 
-        self.dirEnum = {
-            0: 'forward',
-            1: 'backward',
-        }
-
-        # stores the distances by node and based on the visit direction
-        self.dists = {
-            'forward': {},
-            'backward': {},
-        }
-
-        # stores the available paths
-        self.paths = {
-            'forward': {self.source: [self.source]},
-            'backward': {self.target: [self.target]},
-        }
-
-        # heap of (distance, node) tuples for extracting next node to expand
-        self.fringe = {
-            'forward': [],
-            'backward': [],
-        }
-
-        # nodes who have already been seen and investigated
-        self.visited = {
-            'forward': {self.source: 0},
-            'backward': {self.target: 0},
-        }
-
-        # neighs for extracting correct neighbor information
-        self.neighs = {
-            'forward': self.graph.successors_iter,
-            'backward': self.graph.predecessors_iter,
-        }
-
-        self.c = count()
-
-        # setup the self.fringe heap
-        heappush(self.fringe['forward'], (0, next(self.c), self.source))
-        heappush(self.fringe['backward'], (0, next(self.c), self.target))
-
-        # variables to hold shortest discovered path
-        self.finalPath = []
-        self.directionNum = 1
-        self.finalDist = 0
-
-        self.finished = False
-        self.failed = False
-
-    def bidirectionalDijkstra(self, stepping = False):
-
-        if self.finished or self.failed:
+        if self.finished:
             self.log('\n\nComputation already complete')
             return
 
@@ -95,9 +37,13 @@ class Dijkstra:
                 self.log('\n\nShortest path found ' + str(self.finalPath))
                 self.log('Global distance ' + str(self.finalDist))
                 self.finished = True
-                return self.finalDist, self.finalPath
+                self.renderer.plotGraph(network=self.network, path=self.finalPath)
+                return self.finalDist
 
             self.log('Checking node ' + str(self.coordinates[v]) + ' neighbors')
+            if stepping:
+                self.renderer.plotGraph(network=self.network, primaryVisited=[v],
+                                        secondaryVisisted=list(self.neighs[direction](v)))
             for w in self.neighs[direction](v):
                 self.log('\nExpanding node ---> ' + str(self.coordinates[w]))
                 if direction == 'forward':  # forward
@@ -129,8 +75,12 @@ class Dijkstra:
                             reversePath.reverse()
                             self.finalPath = self.paths['forward'][w] + reversePath[1:]
             if stepping:
-                break
+                self.log('\n')
+                return None
         # if not self.fringe['forward'] or self.fringe['backward']:
         #     self.failed = True
-        # self.log("No path between %s and %s." % (self.source, self.target))
+        self.log("No path between %s and %s." % (self.source, self.target))
+        self.finished = True
+        self.renderer.plotGraph(network=self.network, noPath=True)
+        return -1
         # raise nx.NetworkXNoPath("No path between %s and %s." % (self.source, self.target))

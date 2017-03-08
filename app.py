@@ -1,14 +1,13 @@
+import sys
 import matplotlib
 matplotlib.use("Qt5Agg")
 from Parser import Parser
 from Rendering.Renderer import MatPlotLibRenderer
 from Algorithms.Dijkstra import Dijkstra
-
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 from PyQt5 import uic, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QFileDialog
 
-from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
-import sys
 
 class AICourseWork(QMainWindow):
     def __init__(self):
@@ -33,16 +32,20 @@ class AICourseWork(QMainWindow):
 
         # bind buttons graph
         self.solveButton.clicked.connect(self.findShortestPath)
-        self.stepButton.clicked.connect(self.findShortestPath)
+        self.stepButton.clicked.connect(self.stepThrough)
         self.undoButton.clicked.connect(self.findShortestPath)
         self.redoButton.clicked.connect(self.findShortestPath)
-
         self.testingOpen()
 
     def testingOpen(self):
         file = 'C:/Users/Eloh/Desktop/AICoursework/TestFiles/test3.cav'
         self.currentNetwork = Parser.CavernsNetwork(file)
         self.renderingCanvas.plotGraph(self.currentNetwork)
+        self.algorithmWrapper = Dijkstra(
+            network=self.currentNetwork,
+            log=lambda text: self.activityLog.insertPlainText('\n' + text),
+            renderer=self.renderingCanvas
+            )
 
     def openFile(self):
         file, _ = QFileDialog.getOpenFileName(self, "QFileDialog.getOpenFileNames()", directory='./TestFiles', filter='*.cav')
@@ -55,21 +58,21 @@ class AICourseWork(QMainWindow):
                 network=self.currentNetwork,
                 log=lambda text: self.activityLog.insertPlainText('\n' + text),
                 renderer=self.renderingCanvas
-        )
+            )
+            self.stepButton.setEnabled(not self.algorithmWrapper.finished)
+            self.distanceLabel.setText('Total Distance ')
 
     def stepThrough(self):
-        self.activityLog.clear()
-        self.activityLog.insertPlainText('Processing ' + self.currentNetwork.fileName + '\n')
-        distance, path = self.algorithmWrapper.bidirectionalDijkstra()
-        self.renderingCanvas.plotGraph(self.currentNetwork, path)
-        self.distanceLabel.setText('Total Distance ' + str(distance))
+        distance = self.algorithmWrapper.bidirectionalDijkstra(stepping=True)
+        self.stepButton.setEnabled(not self.algorithmWrapper.finished)
+        if distance:
+            self.distanceLabel.setText('Total Distance ' + str(distance))
 
     # solve with selected algorithm
     def findShortestPath(self):
         self.activityLog.clear()
         self.activityLog.insertPlainText('Processing ' + self.currentNetwork.fileName + '\n')
-        distance, path = self.algorithmWrapper.bidirectionalDijkstra()
-        self.renderingCanvas.plotGraph(self.currentNetwork, path)
+        distance = self.algorithmWrapper.bidirectionalDijkstra()
         self.distanceLabel.setText('Total Distance ' + str(distance))
 
 if __name__ == '__main__':
