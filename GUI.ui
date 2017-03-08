@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1620</width>
+    <width>1639</width>
     <height>900</height>
    </rect>
   </property>
@@ -29,10 +29,10 @@
    <widget class="QPushButton" name="solveButton">
     <property name="geometry">
      <rect>
-      <x>1490</x>
-      <y>80</y>
+      <x>1510</x>
+      <y>60</y>
       <width>111</width>
-      <height>41</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="text">
@@ -90,7 +90,7 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>0</y>
+      <y>10</y>
       <width>1300</width>
       <height>841</height>
      </rect>
@@ -100,9 +100,9 @@
     <property name="geometry">
      <rect>
       <x>1340</x>
-      <y>130</y>
-      <width>261</width>
-      <height>691</height>
+      <y>150</y>
+      <width>281</width>
+      <height>671</height>
      </rect>
     </property>
     <property name="readOnly">
@@ -116,7 +116,7 @@
     <property name="geometry">
      <rect>
       <x>1340</x>
-      <y>110</y>
+      <y>120</y>
       <width>261</width>
       <height>16</height>
      </rect>
@@ -138,13 +138,85 @@
      <string>Total Distance:</string>
     </property>
    </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>1330</x>
+      <y>60</y>
+      <width>171</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="undoButton">
+       <property name="toolTip">
+        <string>Undo</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>Resources/002-arrows.png</normaloff>Resources/002-arrows.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="redoButton">
+       <property name="toolTip">
+        <string>Redo</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>Resources/001-redo.png</normaloff>Resources/001-redo.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="playButton">
+       <property name="toolTip">
+        <string>Step through</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>Resources/play.png</normaloff>Resources/play.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>20</width>
+         <height>20</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1620</width>
+     <width>1639</width>
      <height>21</height>
     </rect>
    </property>

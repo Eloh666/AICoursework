@@ -3,119 +3,134 @@ from itertools import count
 import networkx as nx
 
 
-def bidirectionalDijkstra(network, log, weight='weight'):
-    graph = network.graph
-    source = network.source
-    target = network.target
-    coordinates = network.coordinates
+class Dijkstra:
+    def __init__(self, network, log, weight='weight', renderer=None):
+        self.weight = weight
+        self.log = log
+        self.graph = network.graph
+        self.source = network.source
+        self.target = network.target
+        self.coordinates = network.coordinates
 
-    if source == target:
-        log('Matching Source and Destination')
-        log('The distance is zero.')
-        return 0, [source]
+        self.dirEnum = {
+            0: 'forward',
+            1: 'backward',
+        }
 
-    dirEnum = {
-        0: 'forward',
-        1: 'backward',
-    }
+        # stores the distances by node and based on the visit direction
+        self.dists = {
+            'forward': {},
+            'backward': {},
+        }
 
+        # stores the available paths
+        self.paths = {
+            'forward': {self.source: [self.source]},
+            'backward': {self.target: [self.target]},
+        }
 
+        # heap of (distance, node) tuples for extracting next node to expand
+        self.fringe = {
+            'forward': [],
+            'backward': [],
+        }
 
-    # stores the distances by node and based on the visit direction
-    dists = {
-        'forward': {},
-        'backward': {},
-    }
+        # nodes who have already been seen and investigated
+        self.visited = {
+            'forward': {self.source: 0},
+            'backward': {self.target: 0},
+        }
 
-    # stores the available paths
-    paths = {
-        'forward': {source: [source]},
-        'backward': {target: [target]},
-    }
+        # neighs for extracting correct neighbor information
+        self.neighs = {
+            'forward': self.graph.successors_iter,
+            'backward': self.graph.predecessors_iter,
+        }
 
-    # heap of (distance, node) tuples for extracting next node to expand
-    fringe = {
-        'forward': [],
-        'backward': [],
-    }
+        self.c = count()
 
-    # nodes who have already been seen and investigated
-    visited = {
-        'forward': {source: 0},
-        'backward': {target: 0},
-    }
+        # setup the self.fringe heap
+        heappush(self.fringe['forward'], (0, next(self.c), self.source))
+        heappush(self.fringe['backward'], (0, next(self.c), self.target))
 
-    # neighs for extracting correct neighbor information
-    neighs = {
-        'forward': graph.successors_iter,
-        'backward': graph.predecessors_iter,
-    }
+        # variables to hold shortest discovered path
+        self.finalPath = []
+        self.directionNum = 1
+        self.finalDist = 0
 
-    c = count()
+        self.finished = False
+        self.failed = False
 
-    # setup the fringe heap
-    heappush(fringe['forward'], (0, next(c), source))
-    heappush(fringe['backward'], (0, next(c), target))
+    def bidirectionalDijkstra(self, stepping = False):
 
-    # variables to hold shortest discovered path
-    finalPath = []
-    directionNum = 1
-    finalDist = 0
-    while fringe['forward'] and fringe['backward']:
-        # choose directionection
-        # direction == 0 is forward directionection and direction == 1 is back
-        directionNum = 1 - directionNum
+        if self.finished or self.failed:
+            self.log('\n\nComputation already complete')
+            return
 
-        direction = dirEnum[directionNum]
-        log('\n\n --- Reversing the lookup')
-        log('Visiting direction set to ' + direction)
+        if self.source == self.target:
+            self.log('Matching Source and Destination')
+            self.log('The distance is zero.')
+            return 0, [self.source]
 
-        # extract closest to expand
-        (dist, _, v) = heappop(fringe[direction])
-        log('\nExpanding main node ===> ' + str(coordinates[v]))
-        if v in dists[direction]:
-            # Shortest path to v has already been found
-            log('Shortest path already been found ')
-            continue
-        # update distance
-        dists[direction][v] = dist
-        if v in dists[dirEnum[1 - directionNum]]:
-            log('Node ' + str(coordinates[v]) + ' expanded bidirectionally')
-            # node bidirectionally expanded and checked, thus the shorted path is found
-            log('\n\nShortest path found ' + str(finalPath))
-            log('Global distance ' + str(finalDist))
-            return finalDist, finalPath
+        while self.fringe['forward'] and self.fringe['backward']:
+            # choose directionection
+            # direction == 0 is forward directionection and direction == 1 is back
+            self.directionNum = 1 - self.directionNum
 
-        log('Checking node ' + str(coordinates[v]) + ' neighbours')
-        for w in neighs[direction](v):
-            log('\nExpanding node ---> ' + str(coordinates[w]))
-            if direction == 'forward':  # forward
-                minWeight = graph[v][w].get(weight, 1)
-            else:  # back, must remember to change v,w->w,v
-                minWeight = graph[w][v].get(weight, 1)
-            vwLength = dists[direction][v] + minWeight  # graph[w][v].get(weight,1)
-            log('Calculating distance ' + str(vwLength))
+            direction = self.dirEnum[self.directionNum]
+            self.log('\n\n--- Visiting direction set to ' + direction)
 
-            # catches the exception caused by negative paths in djkstras
-            if w in dists[direction]:
-                if vwLength < dists[direction][w]:
-                    log('\n\n\nWarning: Djkstra does NOT support negative weights. Please check the input.')
-                    raise ValueError("Wrong input provided: negative weights?")
+            # extract closest to expand
+            (dist, _, v) = heappop(self.fringe[direction])
+            self.log('\nExpanding main node ===> ' + str(self.coordinates[v]))
+            if v in self.dists[direction]:
+                # Shortest path to v has already been found
+                self.log('Shortest path already been found ')
+                continue
+            # update distance
+            self.dists[direction][v] = dist
+            if v in self.dists[self.dirEnum[1 - self.directionNum]]:
+                self.log('Node ' + str(self.coordinates[v]) + ' expanded bidirectionally')
+                # node bidirectionally expanded and checked, thus the shorted path is found
+                self.log('\n\nShortest path found ' + str(self.finalPath))
+                self.log('Global distance ' + str(self.finalDist))
+                self.finished = True
+                return self.finalDist, self.finalPath
 
-            elif w not in visited[direction] or vwLength < visited[direction][w]:
-                log('Adding the new distance ' + str(vwLength))
-                log('Mapping updated')
-                # relaxing
-                visited[direction][w] = vwLength
-                heappush(fringe[direction], (vwLength, next(c), w))
-                paths[direction][w] = paths[direction][v] + [w]
-                if w in visited['forward'] and w in visited['backward']:
-                    log('Merging paths as middle node has been found')
-                    totalDistance = visited['forward'][w] + visited['backward'][w]
-                    if finalPath == [] or finalDist > totalDistance:
-                        finalDist = totalDistance
-                        reversePath = paths['backward'][w]
-                        reversePath.reverse()
-                        finalPath = paths['forward'][w] + reversePath[1:]
-    log("No path between %s and %s." % (source, target))
-    raise nx.NetworkXNoPath("No path between %s and %s." % (source, target))
+            self.log('Checking node ' + str(self.coordinates[v]) + ' neighbors')
+            for w in self.neighs[direction](v):
+                self.log('\nExpanding node ---> ' + str(self.coordinates[w]))
+                if direction == 'forward':  # forward
+                    minWeight = self.graph[v][w].get(self.weight, 1)
+                else:  # back, must remember to change v,w->w,v
+                    minWeight = self.graph[w][v].get(self.weight, 1)
+                vwLength = self.dists[direction][v] + minWeight  # self.graph[w][v].get(weight,1)
+                self.log('Calculating distance ' + str(vwLength))
+
+                # catches the exception caused by negative paths in djkstras
+                if w in self.dists[direction]:
+                    if vwLength < self.dists[direction][w]:
+                        self.log('\n\n\nWarning: Djkstra does NOT support negative weights. Please check the input.')
+                        raise ValueError("Wrong input provided: negative weights?")
+
+                elif w not in self.visited[direction] or vwLength < self.visited[direction][w]:
+                    self.log('Adding the new distance ' + str(vwLength))
+                    self.log('Mapping updated')
+                    # relaxing
+                    self.visited[direction][w] = vwLength
+                    heappush(self.fringe[direction], (vwLength, next(self.c), w))
+                    self.paths[direction][w] = self.paths[direction][v] + [w]
+                    if w in self.visited['forward'] and w in self.visited['backward']:
+                        self.log('Merging paths as middle node has been found')
+                        totalDistance = self.visited['forward'][w] + self.visited['backward'][w]
+                        if self.finalPath == [] or self.finalDist > totalDistance:
+                            self.finalDist = totalDistance
+                            reversePath = self.paths['backward'][w]
+                            reversePath.reverse()
+                            self.finalPath = self.paths['forward'][w] + reversePath[1:]
+            if stepping:
+                break
+        # if not self.fringe['forward'] or self.fringe['backward']:
+        #     self.failed = True
+        # self.log("No path between %s and %s." % (self.source, self.target))
+        # raise nx.NetworkXNoPath("No path between %s and %s." % (self.source, self.target))

@@ -1,6 +1,6 @@
 from Parser import Parser
-from Algorithms import Dijkstra
+from Algorithms.Dijkstra import Dijkstra
 
 file = 'C:/Users/Eloh/Desktop/AICoursework/TestFiles/test3.cav'
 currentNetwork = Parser.CavernsNetwork(file)
-print(Dijkstra.bidirectionalDijkstra(currentNetwork.graph, currentNetwork.source, currentNetwork.target))
+dijk = Dijkstra(currentNetwork, lambda x: print(x))

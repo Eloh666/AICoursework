@@ -2,7 +2,7 @@ import matplotlib
 matplotlib.use("Qt5Agg")
 from Parser import Parser
 from Rendering.Renderer import MatPlotLibRenderer
-from Algorithms import Dijkstra
+from Algorithms.Dijkstra import Dijkstra
 
 from PyQt5 import uic, QtCore
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QFileDialog
@@ -18,6 +18,7 @@ class AICourseWork(QMainWindow):
 
         # Setup general state parameters
         self.currentNetwork = None
+        self.algorithmWrapper = None
 
         # Setup rendering canvas
         self.layout = QVBoxLayout(self.graphWidget)
@@ -30,8 +31,11 @@ class AICourseWork(QMainWindow):
         # open file
         self.actionOpen.triggered.connect(self.openFile)
 
-        # solve graph
+        # bind buttons graph
         self.solveButton.clicked.connect(self.findShortestPath)
+        self.stepButton.clicked.connect(self.findShortestPath)
+        self.undoButton.clicked.connect(self.findShortestPath)
+        self.redoButton.clicked.connect(self.findShortestPath)
 
         self.testingOpen()
 
@@ -47,16 +51,24 @@ class AICourseWork(QMainWindow):
             self.renderingCanvas.clearFigure()
             self.activityLog.clear()
             self.renderingCanvas.plotGraph(self.currentNetwork)
+            self.algorithmWrapper = Dijkstra(
+                network=self.currentNetwork,
+                log=lambda text: self.activityLog.insertPlainText('\n' + text),
+                renderer=self.renderingCanvas
+        )
+
+    def stepThrough(self):
+        self.activityLog.clear()
+        self.activityLog.insertPlainText('Processing ' + self.currentNetwork.fileName + '\n')
+        distance, path = self.algorithmWrapper.bidirectionalDijkstra()
+        self.renderingCanvas.plotGraph(self.currentNetwork, path)
+        self.distanceLabel.setText('Total Distance ' + str(distance))
 
     # solve with selected algorithm
     def findShortestPath(self):
         self.activityLog.clear()
         self.activityLog.insertPlainText('Processing ' + self.currentNetwork.fileName + '\n')
-        result = Dijkstra.bidirectionalDijkstra(
-            self.currentNetwork,
-            lambda text: self.activityLog.insertPlainText('\n' + text)
-        )
-        distance, path = result
+        distance, path = self.algorithmWrapper.bidirectionalDijkstra()
         self.renderingCanvas.plotGraph(self.currentNetwork, path)
         self.distanceLabel.setText('Total Distance ' + str(distance))
 
