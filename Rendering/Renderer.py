@@ -49,9 +49,6 @@ class MatPlotLibRenderer(FigureCanvas):
 
         redEdges = list(filter( lambda x: x[0] in primaryVisited and x[1] in secondaryVisisted, graph.edges()))
         regularEdges = [node for node in graph.edges() if node not in redEdges]
-        print(primaryVisited)
-        print(secondaryVisisted)
-        print(regularEdges)
 
         nx.draw_networkx_nodes(graph,
                                self.pos,
