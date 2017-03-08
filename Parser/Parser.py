@@ -23,8 +23,8 @@ class CavernsNetwork:
         self.__computeEdges()
 
         # Selects source and destination
-        self.source = self.graph.nodes(0)
-        self.target = self.graph.nodes(len(self.graph.nodes()))
+        self.source = 0
+        self.target = self.__numberCoordinats - 1
 
     def __readFile(self):
         with open(self.fileName, 'r') as cavernsFile:

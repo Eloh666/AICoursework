@@ -1,83 +1,100 @@
-# -*- coding: utf-8 -*-
-
 from heapq import heappush, heappop
 from itertools import count
 import networkx as nx
 
 
+dirEnum = {
+    0: 'forward',
+    1: 'backward',
+}
+
+
 def bidirectionalDijkstra(G, source, target, weight='weight'):
     if source == target:
-        return (0, [source])
-    push = heappush
-    pop = heappop
-    # Init:   Forward             Backward
-    dists  = [{},                {}]  # dictionary of final distances
-    paths  = [{source: [source]}, {target: [target]}]  # dictionary of paths
-    fringe = [[],                []]  # heap of (distance, node) tuples for
-                                      # extracting next node to expand
-    seen   = [{source: 0},        {target: 0}]  # dictionary of distances to
-                                                # nodes seen
-    c = count()
-    # initialize fringe heap
-    push(fringe[0], (0, next(c), source))
-    push(fringe[1], (0, next(c), target))
+        return 0, [source]
+
+    # stores the distances by node and based on the visit direction
+    dists = {
+        0: {},
+        1: {},
+    }
+
+    # stores the available paths
+    paths = {
+        0: {source: [source]},
+        1: {target: [target]},
+    }
+
+    # heap of (distance, node) tuples for extracting next node to expand
+    fringe = {
+        0: [],
+        1: [],
+    }
+
+    # nodes who have already been seen and investigated
+    visited = {
+        0: {source: 0},
+        1: {target: 0},
+    }
+
     # neighs for extracting correct neighbor information
-    if G.is_directed():
-        neighs = [G.successors_iter, G.predecessors_iter]
-    else:
-        neighs = [G.neighbors_iter, G.neighbors_iter]
+    neighs = {
+        0: G.successors_iter,
+        1: G.predecessors_iter,
+    }
+
+    c = count()
+
+    # setup the fringe heap
+    heappush(fringe[0], (0, next(c), source))
+    heappush(fringe[1], (0, next(c), target))
+
     # variables to hold shortest discovered path
-    #finaldist = 1e30000
-    finalpath = []
-    dir = 1
+    finalPath = []
+    direction = 1
+    finalDist = 0
     while fringe[0] and fringe[1]:
-        # choose direction
-        # dir == 0 is forward direction and dir == 1 is back
-        dir = 1 - dir
+        # choose directionection
+        # direction == 0 is forward directionection and direction == 1 is back
+        direction = 1 - direction
         # extract closest to expand
-        (dist, _, v) = pop(fringe[dir])
-        if v in dists[dir]:
+        (dist, _, v) = heappop(fringe[direction])
+        if v in dists[direction]:
             # Shortest path to v has already been found
             continue
         # update distance
-        dists[dir][v] = dist  # equal to seen[dir][v]
-        if v in dists[1 - dir]:
-            # if we have scanned v in both directions we are done
+        dists[direction][v] = dist  # equal to visited[direction][v]
+        if v in dists[1 - direction]:
+            # if we have scanned v in both directionections we are done
             # we have now discovered the shortest path
-            return (finaldist, finalpath)
+            print(dists)
+            print(paths)
+            print(fringe)
+            return finalDist, finalPath
 
-        for w in neighs[dir](v):
-            if(dir == 0):  # forward
-                if G.is_multigraph():
-                    minweight = min((dd.get(weight, 1)
-                                     for k, dd in G[v][w].items()))
-                else:
-                    minweight = G[v][w].get(weight, 1)
-                vwLength = dists[dir][v] + minweight  # G[v][w].get(weight,1)
+        for w in neighs[direction](v):
+            if direction == 0:  # forward
+                minWeight = G[v][w].get(weight, 1)
             else:  # back, must remember to change v,w->w,v
-                if G.is_multigraph():
-                    minweight = min((dd.get(weight, 1)
-                                     for k, dd in G[w][v].items()))
-                else:
-                    minweight = G[w][v].get(weight, 1)
-                vwLength = dists[dir][v] + minweight  # G[w][v].get(weight,1)
+                minWeight = G[w][v].get(weight, 1)
+            vwLength = dists[direction][v] + minWeight  # G[w][v].get(weight,1)
 
-            if w in dists[dir]:
-                if vwLength < dists[dir][w]:
+            if w in dists[direction]:
+                if vwLength < dists[direction][w]:
                     raise ValueError(
                         "Contradictory paths found: negative weights?")
-            elif w not in seen[dir] or vwLength < seen[dir][w]:
+            elif w not in visited[direction] or vwLength < visited[direction][w]:
                 # relaxing
-                seen[dir][w] = vwLength
-                push(fringe[dir], (vwLength, next(c), w))
-                paths[dir][w] = paths[dir][v] + [w]
-                if w in seen[0] and w in seen[1]:
+                visited[direction][w] = vwLength
+                heappush(fringe[direction], (vwLength, next(c), w))
+                paths[direction][w] = paths[direction][v] + [w]
+                if w in visited[0] and w in visited[1]:
                     # see if this path is better than than the already
                     # discovered shortest path
-                    totaldist = seen[0][w] + seen[1][w]
-                    if finalpath == [] or finaldist > totaldist:
-                        finaldist = totaldist
+                    totaldist = visited[0][w] + visited[1][w]
+                    if finalPath == [] or finalDist > totaldist:
+                        finalDist = totaldist
                         revpath = paths[1][w][:]
                         revpath.reverse()
-                        finalpath = paths[0][w] + revpath[1:]
+                        finalPath = paths[0][w] + revpath[1:]
     raise nx.NetworkXNoPath("No path between %s and %s." % (source, target))

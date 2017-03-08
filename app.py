@@ -45,7 +45,7 @@ class AICourseWork(QMainWindow):
 
     # solve with selected algorithm
     def findShortestPath(self):
-        print(Dijkstra.bidirectionalDijkstra(self.currentNetwork.graph, 0, 6))
+        print(Dijkstra.bidirectionalDijkstra(self.currentNetwork.graph, self.currentNetwork.source, self.currentNetwork.target))
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
