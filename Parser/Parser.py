@@ -1,6 +1,7 @@
 import numpy
 import networkx as nx
 import math
+import ntpath
 
 def euclideanDistance(a, b):
     x = pow(a[0] - b[0], 2)
@@ -10,41 +11,41 @@ def euclideanDistance(a, b):
 class CavernsNetwork:
 
     def __init__(self, fileName):
-        self.fileName = fileName
+        self.fileName = ntpath.basename(fileName)
 
         # Parses basic file into a graph
-        self.__coordinates = []
-        self.__cavernData = self.__readFile().split(',')
+        self.coordinates = []
+        self.__cavernData = self.__readFile(fileName).split(',')
         self.__numberCoordinats = int(self.__cavernData[0], 10)
+
+        # Selects source and destination
+        self.source = 0
+        self.target = self.__numberCoordinats - 1
 
         # Generates advanced structures from the data
         self.graph = self.__parseGraph()
         self.matrix = self.__parseMatrix()
         self.__computeEdges()
 
-        # Selects source and destination
-        self.source = 0
-        self.target = self.__numberCoordinats - 1
-
-    def __readFile(self):
-        with open(self.fileName, 'r') as cavernsFile:
+    def __readFile(self, fileName):
+        with open(fileName, 'r') as cavernsFile:
             return cavernsFile.read().replace('\n', '')
 
     def __parseGraph(self):
         coordsData = self.__cavernData[1: (2 * self.__numberCoordinats) + 1]
         parsedCoordsData = list(map(lambda x: int(x, 10), coordsData))
-        self.__coordinates = list(zip(parsedCoordsData, parsedCoordsData[1:]))[::2]
+        self.coordinates = list(zip(parsedCoordsData, parsedCoordsData[1:]))[::2]
 
         graph = nx.DiGraph()
-        for index, value in enumerate(self.__coordinates):
-            graph.add_node(index, coords=tuple(numpy.squeeze(numpy.asarray(value))))
+        for index, value in enumerate(self.coordinates):
+                graph.add_node(index, coords=tuple(numpy.squeeze(numpy.asarray(value))))
         return graph
 
     def __computeEdges(self):
         for (x, y), value in numpy.ndenumerate(self.matrix):
             if int(value) == 1:
-                source = self.__coordinates[x]
-                dest = self.__coordinates[y]
+                source = self.coordinates[x]
+                dest = self.coordinates[y]
                 self.graph.add_edge(
                     y,
                     x,

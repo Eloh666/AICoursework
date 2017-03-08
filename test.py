@@ -1,82 +1,113 @@
-from heapq import heappush, heappop
-from itertools import count
+from PyQt5.QtCore import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import networkx as nx
 
+class PrettyWidget(QWidget):
 
-def bidirectionalDijkstra(G, source, target, weight='weight'):
-    if source == target:
-        return 0, [source]
-    # Init:   Forward             Backward
-    dists  = [{},                {}]  # dictionary of final distances
-    paths  = [{source: [source]}, {target: [target]}]  # dictionary of paths
-    fringe = [[],                []]  # heap of (distance, node) tuples for
-                                      # extracting next node to expand
-    seen   = [{source: 0},        {target: 0}]  # dictionary of distances to
-                                                # nodes seen
-    c = count()
-    # initialize fringe heap
-    heappush(fringe[0], (0, next(c), source))
-    heappush(fringe[1], (0, next(c), target))
-    # neighs for extracting correct neighbor information
-    if G.is_directed():
-        neighs = [G.successors_iter, G.predecessors_iter]
-    else:
-        neighs = [G.neighbors_iter, G.neighbors_iter]
-    # variables to hold shortest discovered path
-    #finaldist = 1e30000
-    finalpath = []
-    dir = 1
-    while fringe[0] and fringe[1]:
-        # choose direction
-        # dir == 0 is forward direction and dir == 1 is back
-        dir = 1 - dir
-        # extract closest to expand
-        (dist, _, v) = heappop(fringe[dir])
-        if v in dists[dir]:
-            # Shortest path to v has already been found
-            continue
-        # update distance
-        dists[dir][v] = dist  # equal to seen[dir][v]
-        if v in dists[1 - dir]:
-            # if we have scanned v in both directions we are done
-            # we have now discovered the shortest path
-            print(dists)
-            print(paths)
-            print(fringe)
-            return (finaldist, finalpath)
+    NumButtons = ['plot1','plot2', 'plot3']
 
-        for w in neighs[dir](v):
-            if(dir == 0):  # forward
-                if G.is_multigraph():
-                    minweight = min((dd.get(weight, 1)
-                                     for k, dd in G[v][w].items()))
-                else:
-                    minweight = G[v][w].get(weight, 1)
-                vwLength = dists[dir][v] + minweight  # G[v][w].get(weight,1)
-            else:  # back, must remember to change v,w->w,v
-                if G.is_multigraph():
-                    minweight = min((dd.get(weight, 1)
-                                     for k, dd in G[w][v].items()))
-                else:
-                    minweight = G[w][v].get(weight, 1)
-                vwLength = dists[dir][v] + minweight  # G[w][v].get(weight,1)
+    def __init__(self):
 
-            if w in dists[dir]:
-                if vwLength < dists[dir][w]:
-                    raise ValueError(
-                        "Contradictory paths found: negative weights?")
-            elif w not in seen[dir] or vwLength < seen[dir][w]:
-                # relaxing
-                seen[dir][w] = vwLength
-                heappush(fringe[dir], (vwLength, next(c), w))
-                paths[dir][w] = paths[dir][v] + [w]
-                if w in seen[0] and w in seen[1]:
-                    # see if this path is better than than the already
-                    # discovered shortest path
-                    totaldist = seen[0][w] + seen[1][w]
-                    if finalpath == [] or finaldist > totaldist:
-                        finaldist = totaldist
-                        revpath = paths[1][w][:]
-                        revpath.reverse()
-                        finalpath = paths[0][w] + revpath[1:]
-    raise nx.NetworkXNoPath("No path between %s and %s." % (source, target))
+
+        super(PrettyWidget, self).__init__()
+        font = QFont()
+        font.setPointSize(16)
+        self.initUI()
+
+    def initUI(self):
+
+        self.setGeometry(100, 100, 800, 600)
+        self.center()
+        self.setWindowTitle('S Plot')
+
+        grid = QGridLayout()
+        self.setLayout(grid)
+        self.createVerticalGroupBox()
+
+        buttonLayout = QVBoxLayout()
+        buttonLayout.addWidget(self.verticalGroupBox)
+
+        self.figure = plt.figure()
+        self.canvas = FigureCanvas(self.figure)
+        grid.addWidget(self.canvas, 0, 1, 9, 9)
+        grid.addLayout(buttonLayout, 0, 0)
+
+        self.show()
+
+
+    def createVerticalGroupBox(self):
+        self.verticalGroupBox = QGroupBox()
+
+        layout = QVBoxLayout()
+        for i in  self.NumButtons:
+                button = QPushButton(i)
+                button.setObjectName(i)
+                layout.addWidget(button)
+                layout.setSpacing(10)
+                self.verticalGroupBox.setLayout(layout)
+                button.clicked.connect(self.submitCommand)
+
+    def submitCommand(self):
+        eval('self.' + str(self.sender().objectName()) + '()')
+
+
+
+    def plot1(self):
+        self.figure.clf()
+        ax1 = self.figure.add_subplot(211)
+        x1 = [i for i in range(100)]
+        y1 = [i**0.5 for i in x1]
+        ax1.plot(x1, y1, 'b.-')
+
+        ax2 = self.figure.add_subplot(212)
+        x2 = [i for i in range(100)]
+        y2 = [i for i in x2]
+        ax2.plot(x2, y2, 'b.-')
+        self.canvas.draw_idle()
+
+    def plot2(self):
+        self.figure.clf()
+        ax3 = self.figure.add_subplot(111)
+        x = [i for i in range(100)]
+        y = [i**0.5 for i in x]
+        ax3.plot(x, y, 'r.-')
+        ax3.set_title('Square Root Plot')
+        self.canvas.draw_idle()
+
+    def plot3(self):
+        self.figure.clf()
+        B = nx.Graph()
+        B.add_nodes_from([1, 2, 3, 4], bipartite=0)
+        B.add_nodes_from(['a', 'b', 'c', 'd', 'e'], bipartite=1)
+        B.add_edges_from([(1, 'a'), (2, 'c'), (3, 'd'), (3, 'e'), (4, 'e'), (4, 'd')])
+
+        X = set(n for n, d in B.nodes(data=True) if d['bipartite'] == 0)
+        Y = set(B) - X
+
+        X = sorted(X, reverse=True)
+        Y = sorted(Y, reverse=True)
+
+        pos = dict()
+        pos.update( (n, (1, i)) for i, n in enumerate(X) ) # put nodes from X at x=1
+        pos.update( (n, (2, i)) for i, n in enumerate(Y) ) # put nodes from Y at x=2
+        nx.draw(B, pos=pos, with_labels=True)
+        self.canvas.draw_idle()
+
+    def center(self):
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
+
+if __name__ == '__main__':
+
+    import sys
+    app = QApplication(sys.argv)
+    app.aboutToQuit.connect(app.deleteLater)
+    app.setStyle(QStyleFactory.create("gtk"))
+    screen = PrettyWidget()
+    screen.show()
+    sys.exit(app.exec_())
