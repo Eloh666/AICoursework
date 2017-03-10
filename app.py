@@ -5,7 +5,7 @@ from Parser import Parser
 from Rendering.Renderer import MatPlotLibRenderer
 from Algorithms.Dijkstra import Dijkstra
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
-from PyQt5 import uic, QtCore
+from PyQt5 import uic, QtCore, QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QFileDialog
 from Utils.UndoRedoStack import UndoRedoStack
 
@@ -39,8 +39,12 @@ class AICourseWork(QMainWindow):
         self.redoButton.clicked.connect(self.redo)
         self.resetButton.clicked.connect(self.reset)
 
+        # buttons disabled until a graph is loaded
         self.undoButton.setEnabled(False)
         self.redoButton.setEnabled(False)
+        self.resetButton.setEnabled(False)
+        self.solveButton.setEnabled(False)
+        self.stepButton.setEnabled(False)
 
     def undo(self):
         _, past, present = self.stack.undo()
@@ -52,6 +56,11 @@ class AICourseWork(QMainWindow):
         self.undoButton.setEnabled(past)
         self.redoButton.setEnabled(present)
 
+    def handleOutput(self, text):
+        self.activityLog.moveCursor(QtGui.QTextCursor.End)
+        self.activityLog.ensureCursorVisible()
+        self.activityLog.insertPlainText('\n' + text)
+
     def openFile(self):
         dialog = QFileDialog()
         file, _ = dialog.getOpenFileName(self, directory='./TestFiles', filter='*.cav')
@@ -62,11 +71,13 @@ class AICourseWork(QMainWindow):
             self.activityLog.clear()
             self.algorithmWrapper = Dijkstra(
                 network=self.currentNetwork,
-                log=lambda text: self.activityLog.insertPlainText('\n' + text),
+                log=self.handleOutput,
                 renderer=self.renderingCanvas
             )
             self.stack.onChange(self.algorithmWrapper)
-            self.stepButton.setEnabled(not self.algorithmWrapper.finished)
+            self.stepButton.setEnabled(True)
+            self.resetButton.setEnabled(True)
+            self.solveButton.setEnabled(True)
             self.distanceLabel.setText('Total Distance ')
 
     def stepThrough(self):
@@ -85,9 +96,17 @@ class AICourseWork(QMainWindow):
         self.stack.clearStack()
         self.algorithmWrapper.restart()
         self.stack.onChange(self.algorithmWrapper)
+        self.undoButton.setEnabled(False)
+        self.redoButton.setEnabled(False)
+        self.resetButton.setEnabled(True)
+        self.solveButton.setEnabled(True)
+        self.stepButton.setEnabled(True)
 
     # solve with selected algorithm
     def findShortestPath(self):
+        self.redoButton.setEnabled(False)
+        self.undoButton.setEnabled(False)
+        self.stepButton.setEnabled(False)
         self.activityLog.clear()
         self.activityLog.insertPlainText('Processing ' + self.currentNetwork.fileName + '\n')
         distance = self.algorithmWrapper.bidirectionalDijkstra()

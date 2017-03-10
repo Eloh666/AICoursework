@@ -34,8 +34,9 @@ class Dijkstra(AlgorithmWrapper):
             self.dists[direction][v] = dist
             if v in self.dists[self.dirEnum[1 - self.directionNum]]:
                 self.log('Node ' + str(self.coordinates[v]) + ' expanded bidirectionally')
-                # node bidirectionally expanded and checked, thus the shorted path is found
-                self.log('\n\nShortest path found ' + str(self.finalPath))
+                # the shorted path is found
+                self.log('\n\nBidirectional scan complete.')
+                self.log('\Shortest path found ' + str(self.finalPath))
                 self.log('Global distance ' + str(self.finalDist))
                 self.finished = True
                 if not stepping:
@@ -63,20 +64,37 @@ class Dijkstra(AlgorithmWrapper):
                         raise ValueError("Wrong input provided: negative weights?")
 
                 elif w not in self.visited[direction] or vwLength < self.visited[direction][w]:
-                    self.log('Adding the new distance ' + str(vwLength))
+                    if direction == 'forward':
+                        self.log('Adding new distance from source: ' + str(vwLength))
+                    else:
+                        self.log('Adding new distance from target: ' + str(vwLength))
                     self.log('Mapping updated')
                     # relaxing
                     self.visited[direction][w] = vwLength
                     heappush(self.fringe[direction], (vwLength, next(self.c), w))
                     self.paths[direction][w] = self.paths[direction][v] + [w]
                     if w in self.visited['forward'] and w in self.visited['backward']:
-                        self.log('Merging paths as middle node has been found')
                         totalDistance = self.visited['forward'][w] + self.visited['backward'][w]
+                        self.log('Source --> Destination path found')
+                        self.log('The distance is: ' + str(totalDistance))
+                        if self.finalPath:
+                            self.log('Comparing new path to previous ones')
+                            self.log('Older option: ' + str(self.finalDist))
                         if self.finalPath == [] or self.finalDist > totalDistance:
+                            if self.finalDist > totalDistance:
+                                self.log('The new path is better, selecting')
+                            else:
+                                self.log('Selecting the path as current best')
                             self.finalDist = totalDistance
                             reversePath = self.paths['backward'][w]
                             reversePath.reverse()
                             self.finalPath = self.paths['forward'][w] + reversePath[1:]
+                            self.log('New temporary best path: ')
+                            self.log(str(self.finalPath))
+                        else:
+                            self.log('The previous options are better')
+                            self.log('Discarding')
+
             if stepping:
                 self.log('\n')
                 return None
