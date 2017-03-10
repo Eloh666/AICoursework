@@ -1,6 +1,10 @@
 from Parser import Parser
-from Algorithms import Dijkstra
+from Algorithms.Dijkstra import Dijkstra
+from Utils.UndoRedoStack import UndoRedoStack
+import copy
 
-file = 'C:/Users/Eloh/Desktop/AICoursework/TestFiles/test3.cav'
+file = 'C:/Users/Eloh/Desktop/AICoursework/TestFiles/test.cav'
 currentNetwork = Parser.CavernsNetwork(file)
-print(Dijkstra.bidirectionalDijkstra(currentNetwork.graph, currentNetwork.source, currentNetwork.target))
+dijk = Dijkstra(currentNetwork, lambda x: print(x))
+stack = UndoRedoStack()
+stack.onChange(copy.deepcopy(dijk))
