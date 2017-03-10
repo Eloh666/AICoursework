@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="c3215a34-f262-48c3-88e7-a0d6b46646bf" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/AICoursework.py" afterPath="$PROJECT_DIR$/AICoursework.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Algorithms/AlgorithmWrapper.py" afterPath="$PROJECT_DIR$/Algorithms/AlgorithmWrapper.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Algorithms/Dijkstra.py" afterPath="$PROJECT_DIR$/Algorithms/Dijkstra.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/GUI.ui" afterPath="$PROJECT_DIR$/GUI.ui" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Rendering/Renderer.py" afterPath="$PROJECT_DIR$/Rendering/Renderer.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.py" afterPath="$PROJECT_DIR$/app.py" />
     </list>
@@ -21,7 +20,7 @@
     <SUITE FILE_PATH="coverage/AICoursework$AICoursework.coverage" NAME="AICoursework Coverage Results" MODIFIED="1489099944705" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/AICoursework$parser.coverage" NAME="parser Coverage Results" MODIFIED="1486383046648" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Parser" />
     <SUITE FILE_PATH="coverage/AICoursework$test.coverage" NAME="test Coverage Results" MODIFIED="1488982729298" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/AICoursework$app.coverage" NAME="app Coverage Results" MODIFIED="1489105927094" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/AICoursework$app.coverage" NAME="app Coverage Results" MODIFIED="1489107615168" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/AICoursework$undoRedoStack.coverage" NAME="undoRedoStack Coverage Results" MODIFIED="1489097300944" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Utils" />
   </component>
   <component name="CreatePatchCommitExecutor">
@@ -30,11 +29,21 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="UndoRedoStack.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Utils/UndoRedoStack.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="561">
+              <caret line="33" column="8" lean-forward="false" selection-start-line="33" selection-start-column="8" selection-end-line="33" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="Dijkstra.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Algorithms/Dijkstra.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="267">
-              <caret line="36" column="91" lean-forward="true" selection-start-line="36" selection-start-column="91" selection-end-line="36" selection-end-column="91" />
+              <caret line="36" column="91" lean-forward="false" selection-start-line="36" selection-start-column="91" selection-end-line="36" selection-end-column="91" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -54,11 +63,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="app.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="97">
-              <caret line="56" column="55" lean-forward="true" selection-start-line="56" selection-start-column="55" selection-end-line="56" selection-end-column="56" />
+            <state relative-caret-position="357">
+              <caret line="39" column="52" lean-forward="false" selection-start-line="39" selection-start-column="52" selection-end-line="39" selection-end-column="52" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
               </folding>
@@ -66,21 +75,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="QFileDialog.py" pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/.PyCharm2016.3/system/python_stubs/1402888915/PyQt5/QtWidgets/QFileDialog.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="123">
-              <caret line="143" column="12" lean-forward="true" selection-start-line="143" selection-start-column="12" selection-end-line="143" selection-end-column="12" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Renderer.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Renderer.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Rendering/Renderer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="694">
-              <caret line="56" column="13" lean-forward="true" selection-start-line="56" selection-start-column="13" selection-end-line="56" selection-end-column="13" />
+            <state relative-caret-position="0">
+              <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding>
                 <element signature="e#0#80#0" expanded="true" />
               </folding>
@@ -147,10 +146,10 @@
         <option value="$PROJECT_DIR$/AICoursework.py" />
         <option value="$PROJECT_DIR$/Utils/undoRedoStack.py" />
         <option value="$PROJECT_DIR$/Utils/UndoRedoStack.py" />
-        <option value="$PROJECT_DIR$/Algorithms/AlgorithmWrapper.py" />
         <option value="$PROJECT_DIR$/Algorithms/Dijkstra.py" />
-        <option value="$PROJECT_DIR$/app.py" />
+        <option value="$PROJECT_DIR$/Algorithms/AlgorithmWrapper.py" />
         <option value="$PROJECT_DIR$/Rendering/Renderer.py" />
+        <option value="$PROJECT_DIR$/app.py" />
       </list>
     </option>
   </component>
@@ -265,12 +264,12 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../garden.matplotlib-master" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Eloh\Desktop\AICoursework\Parser" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Eloh\Desktop\AICoursework\Resources" />
       <recent name="C:\Users\Eloh\Desktop\AICoursework" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Eloh\Desktop\AICoursework\Parser" />
     </key>
   </component>
   <component name="RunManager" selected="Python.app">
@@ -619,7 +618,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="3456" height="1416" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.059481744" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32967034" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -627,7 +626,7 @@
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289166" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3281372" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2915043" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2915043" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289166" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -654,16 +653,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/AICoursework.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="4" column="65" lean-forward="false" selection-start-line="4" selection-start-column="65" selection-end-line="4" selection-end-column="65" />
-          <folding>
-            <element signature="e#0#25#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -936,22 +925,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Program Files (x86)/Python36-32/Lib/site-packages/networkx/drawing/layout.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="525" column="16" lean-forward="false" selection-start-line="525" selection-start-column="16" selection-end-line="525" selection-end-column="16" />
-          <folding>
-            <element signature="e#855#1890#0" expanded="false" />
-            <element signature="e#1951#2910#0" expanded="false" />
-            <element signature="e#2979#4620#0" expanded="false" />
-            <element signature="e#8207#10544#0" expanded="false" />
-            <element signature="e#10673#13144#0" expanded="false" />
-            <element signature="e#13222#15517#0" expanded="false" />
-            <element signature="e#16352#17519#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Program Files (x86)/Python36-32/Lib/site-packages/matplotlib/figure.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="784">
@@ -1006,31 +979,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Resources/4i96oykxT.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Algorithms/AlgorithmWrapper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="14">
-          <caret line="30" column="9" lean-forward="true" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="765">
+          <caret line="67" column="35" lean-forward="false" selection-start-line="67" selection-start-column="35" selection-end-line="67" selection-end-column="35" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Algorithms/Dijkstra.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="267">
-          <caret line="36" column="91" lean-forward="true" selection-start-line="36" selection-start-column="91" selection-end-line="36" selection-end-column="91" />
+          <caret line="36" column="91" lean-forward="false" selection-start-line="36" selection-start-column="91" selection-end-line="36" selection-end-column="91" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Utils/UndoRedoStack.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="38" lean-forward="false" selection-start-line="13" selection-start-column="38" selection-end-line="13" selection-end-column="38" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1042,13 +1010,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.py">
+    <entry file="file://$PROJECT_DIR$/Utils/UndoRedoStack.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="97">
-          <caret line="56" column="55" lean-forward="true" selection-start-line="56" selection-start-column="55" selection-end-line="56" selection-end-column="56" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="561">
+          <caret line="33" column="8" lean-forward="false" selection-start-line="33" selection-start-column="8" selection-end-line="33" selection-end-column="8" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1062,12 +1028,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://C:/Program Files (x86)/Python36-32/Lib/site-packages/networkx/drawing/layout.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="412">
+          <caret line="74" column="19" lean-forward="false" selection-start-line="74" selection-start-column="4" selection-end-line="74" selection-end-column="19" />
+          <folding>
+            <element signature="e#855#1890#0" expanded="false" />
+            <element signature="e#1951#2910#0" expanded="false" />
+            <element signature="e#2979#4620#0" expanded="false" />
+            <element signature="e#8207#10544#0" expanded="false" />
+            <element signature="e#10673#13144#0" expanded="false" />
+            <element signature="e#13222#15517#0" expanded="false" />
+            <element signature="e#16352#17519#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Rendering/Renderer.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="694">
-          <caret line="56" column="13" lean-forward="true" selection-start-line="56" selection-start-column="13" selection-end-line="56" selection-end-column="13" />
+        <state relative-caret-position="0">
+          <caret line="12" column="0" lean-forward="true" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding>
             <element signature="e#0#80#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="39" column="52" lean-forward="false" selection-start-line="39" selection-start-column="52" selection-end-line="39" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>

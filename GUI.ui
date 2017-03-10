@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1639</width>
-    <height>900</height>
+    <height>897</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -89,7 +89,7 @@
    <widget class="QWidget" name="graphWidget" native="true">
     <property name="geometry">
      <rect>
-      <x>30</x>
+      <x>20</x>
       <y>10</y>
       <width>1300</width>
       <height>841</height>
@@ -100,9 +100,9 @@
     <property name="geometry">
      <rect>
       <x>1340</x>
-      <y>150</y>
+      <y>180</y>
       <width>281</width>
-      <height>671</height>
+      <height>641</height>
      </rect>
     </property>
     <property name="readOnly">
@@ -116,7 +116,7 @@
     <property name="geometry">
      <rect>
       <x>1340</x>
-      <y>120</y>
+      <y>160</y>
       <width>261</width>
       <height>16</height>
      </rect>
@@ -209,6 +209,32 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QPushButton" name="resetButton">
+    <property name="geometry">
+     <rect>
+      <x>1511</x>
+      <y>130</y>
+      <width>111</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>Step through</string>
+    </property>
+    <property name="text">
+     <string>  Reset</string>
+    </property>
+    <property name="icon">
+     <iconset>
+      <normaloff>Resources/diagonal-arrow.png</normaloff>Resources/diagonal-arrow.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>20</width>
+      <height>20</height>
+     </size>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

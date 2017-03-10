@@ -62,8 +62,10 @@ class AlgorithmWrapper:
         self.primaryVisited = []
         self.secondaryVisited = []
         self.noPath = False
-
         self.finished = False
+
+    def restart(self):
+        self.__setupInitialParams()
 
     def reRender(self):
         self.renderer.plotGraph(

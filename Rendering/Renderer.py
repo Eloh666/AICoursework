@@ -18,8 +18,9 @@ class MatPlotLibRenderer(FigureCanvas):
         self.pos = None
         self.name = "Cavern"
 
-    def clearFigure(self):
-        self.pos = None
+    def clearFigure(self, hard=False):
+        if hard:
+            self.pos = None
         self.axes.relim()
         self.axes.autoscale_view(True, True, True)
         self.draw_idle()
@@ -32,7 +33,10 @@ class MatPlotLibRenderer(FigureCanvas):
 
         nodesNum = len(graph.nodes())
         if not self.pos:
-            self.pos = nx.fruchterman_reingold_layout(graph, scale=100, k=2 / math.sqrt(nodesNum))
+            if nodesNum < 10:
+                self.pos = nx.fruchterman_reingold_layout(graph, scale=100, k=2 / math.sqrt(nodesNum))
+            else:
+                self.pos = nx.circular_layout(graph, scale=100)
 
         self.axes.clear()
         self.axes.relim()

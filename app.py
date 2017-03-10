@@ -37,7 +37,7 @@ class AICourseWork(QMainWindow):
         self.stepButton.clicked.connect(self.stepThrough)
         self.undoButton.clicked.connect(self.undo)
         self.redoButton.clicked.connect(self.redo)
-        self.testingOpen()
+        self.resetButton.clicked.connect(self.reset)
 
         self.undoButton.setEnabled(False)
         self.redoButton.setEnabled(False)
@@ -52,23 +52,13 @@ class AICourseWork(QMainWindow):
         self.undoButton.setEnabled(past)
         self.redoButton.setEnabled(present)
 
-    def testingOpen(self):
-        file = 'C:/Users/Eloh/Desktop/AICoursework/TestFiles/test3.cav'
-        self.currentNetwork = Parser.CavernsNetwork(file)
-        self.renderingCanvas.plotGraph(self.currentNetwork)
-        self.algorithmWrapper = Dijkstra(
-            network=self.currentNetwork,
-            log=lambda text: self.activityLog.insertPlainText('\n' + text),
-            renderer=self.renderingCanvas
-            )
-
     def openFile(self):
         dialog = QFileDialog()
         file, _ = dialog.getOpenFileName(self, directory='./TestFiles', filter='*.cav')
         if file:
             self.stack.clearStack()
             self.currentNetwork = Parser.CavernsNetwork(file)
-            self.renderingCanvas.clearFigure()
+            self.renderingCanvas.clearFigure(hard=True)
             self.activityLog.clear()
             self.algorithmWrapper = Dijkstra(
                 network=self.currentNetwork,
@@ -87,6 +77,14 @@ class AICourseWork(QMainWindow):
         self.redoButton.setEnabled(present)
         if distance:
             self.distanceLabel.setText('Total Distance ' + str(distance))
+
+    def reset(self):
+        self.stack.clearStack()
+        self.renderingCanvas.clearFigure()
+        self.activityLog.clear()
+        self.stack.clearStack()
+        self.algorithmWrapper.restart()
+        self.stack.onChange(self.algorithmWrapper)
 
     # solve with selected algorithm
     def findShortestPath(self):
