@@ -1,6 +1,7 @@
 from heapq import heappush, heappop
 from Algorithms.AlgorithmWrapper import AlgorithmWrapper
 
+
 class Dijkstra(AlgorithmWrapper):
 
     def bidirectionalDijkstra(self, stepping=False):
@@ -15,8 +16,8 @@ class Dijkstra(AlgorithmWrapper):
             return 0, [self.source]
 
         while self.fringe['forward'] and self.fringe['backward']:
-            # choose directionection
-            # direction == 0 is forward directionection and direction == 1 is back
+            # choose direction
+            # direction == 0 is forward direction and direction == 1 is back
             self.directionNum = 1 - self.directionNum
 
             direction = self.dirEnum[self.directionNum]
@@ -37,13 +38,15 @@ class Dijkstra(AlgorithmWrapper):
                 self.log('\n\nShortest path found ' + str(self.finalPath))
                 self.log('Global distance ' + str(self.finalDist))
                 self.finished = True
-                self.renderer.plotGraph(network=self.network, path=self.finalPath)
+                if not stepping:
+                    self.reRender()
                 return self.finalDist
 
             self.log('Checking node ' + str(self.coordinates[v]) + ' neighbors')
             if stepping:
-                self.renderer.plotGraph(network=self.network, primaryVisited=[v],
-                                        secondaryVisisted=list(self.neighs[direction](v)))
+                self.primaryVisited = [v]
+                self.secondaryVisited = list(self.neighs[direction](v))
+                self.path = []
             for w in self.neighs[direction](v):
                 self.log('\nExpanding node ---> ' + str(self.coordinates[w]))
                 if direction == 'forward':  # forward
@@ -77,10 +80,7 @@ class Dijkstra(AlgorithmWrapper):
             if stepping:
                 self.log('\n')
                 return None
-        # if not self.fringe['forward'] or self.fringe['backward']:
-        #     self.failed = True
         self.log("No path between %s and %s." % (self.source, self.target))
         self.finished = True
-        self.renderer.plotGraph(network=self.network, noPath=True)
+        self.noPath = True
         return -1
-        # raise nx.NetworkXNoPath("No path between %s and %s." % (self.source, self.target))

@@ -59,4 +59,18 @@ class AlgorithmWrapper:
         self.directionNum = 1
         self.finalDist = 0
 
+        self.primaryVisited = []
+        self.secondaryVisited = []
+        self.noPath = False
+
         self.finished = False
+
+    def reRender(self):
+        self.renderer.plotGraph(
+            network=self.network,
+            primaryVisited=self.primaryVisited,
+            secondaryVisisted=self.secondaryVisited,
+            noPath=self.noPath,
+            finalPath=self.finalPath,
+            final=self.finished
+        )
