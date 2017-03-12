@@ -1,0 +1,61 @@
+bidirectionalDijkstra(stepping == False):
+
+    // if source and destination match, we already have the shortest path
+    if source == target:
+        return distance and path
+
+    while fringe[forward] and fringe[backward] are not empty:
+
+        // reverses the lookup direction at each iteration
+        lookupDirection = inverse(lookupDirection)
+
+        distance, v = getNextNode(fringe[lookupDirection])
+
+        if distances[lookupDirection] contains v
+
+        // update the distance to v
+        distance[lookupDirection][v] = distance
+
+        // if we have already visited the node bidirectionally, we are done
+        if distances[inverse(lookupDirection)]:
+            if not stepping:
+                renderResults()
+
+        for w in getNeighbours(v):
+            // regardless of the lookup direction, we always want to go from source ---> target,
+            // in a directed graph, target --> source nodes only nodes, are not considered
+            if lookupDirection is forward:
+                minWeight = getWeightOf(v,w)
+            else:
+                minWeight = getWeightOf(w,v)
+
+            vwLength = distances[lookupDirection][v] + minWeight
+
+        // catches the exception caused by potential negative paths
+        // this is visible if minWeight is negative
+        if vwLength < distances[lookupDirection][v]:
+            return -1
+
+        // first or shorter path from source => w or w => target found
+        else self.visited[lookupDirection] not contains w or vwLength < self.visited[lookupDirection][w]:
+            // updates parameters
+            self.visited[lookupDirection][w] = vwLength
+            fringe[lookupDirection].update(vwLength)
+            paths[lookupDirection][w] = paths[lookupDirection][v] + [w]
+            // has w been visited backward and forward?
+            if visited[forward] contains w and visited[backward] contains w:
+                // we have found a path
+                newDistance = visited['forward'][w] + visited['backward'][w]
+                if not finalPath or finalDistance > newDistance:
+                    finalDistance = newDistance
+                    // adds the path to reach w, to to the path from w to target,
+                    // reversing the latter and removing w (otherwise we would have w => w)
+                    finalPath = paths[forward][w] + reverse(paths[backward][w])[1:]
+
+        if stepping:
+            updateState()
+            return;
+    // if we are out of the while loop, and all fringe buffers
+    // are empty, and we still haven't returned, this means there is not path source ==> target
+    return:
+        -1, []

@@ -43,6 +43,7 @@ class AlgorithmWrapper:
         }
 
         # neighs for extracting correct neighbor information
+        # the method unwraps the successors to a node
         self.neighs = {
             'forward': self.graph.successors_iter,
             'backward': self.graph.predecessors_iter,
