@@ -50,18 +50,18 @@ class Dijkstra(AlgorithmWrapper):
                 self.path = []
             for w in self.neighs[direction](v):
                 self.log('\nExpanding node ---> ' + str(self.coordinates[w]))
-                if direction == 'forward':  # forward
+                if direction == 'forward':
                     minWeight = self.graph[v][w].get(self.weight, 1)
                 else:  # back, must remember to change v,w->w,v
                     minWeight = self.graph[w][v].get(self.weight, 1)
                 vwLength = self.dists[direction][v] + minWeight  # self.graph[w][v].get(weight,1)
                 self.log('Calculating distance ' + str(vwLength))
 
-                # catches the exception caused by negative paths in djkstras
+                # catches the exception caused by negative paths in dijkstras
                 if w in self.dists[direction]:
                     if vwLength < self.dists[direction][w]:
-                        self.log('\n\n\nWarning: Djkstra does NOT support negative weights. Please check the input.')
-                        raise ValueError("Wrong input provided: negative weights?")
+                        self.log('\n\n\nWarning: Dijkstra does NOT support negative cycles. Please check the input.')
+                        return -1, []
 
                 elif w not in self.visited[direction] or vwLength < self.visited[direction][w]:
                     if direction == 'forward':
@@ -101,4 +101,4 @@ class Dijkstra(AlgorithmWrapper):
         self.log("No path between %s and %s." % (self.source, self.target))
         self.finished = True
         self.noPath = True
-        return -1
+        return -1, []
