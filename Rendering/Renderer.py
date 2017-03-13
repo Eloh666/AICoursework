@@ -51,12 +51,8 @@ class MatPlotLibRenderer(FigureCanvas):
                         node not in source + target]
 
         if final:
-            redEdges = list(
-                filter(lambda x:
-                       x[0] in finalPath and x[1] in finalPath
-                       or
-                       x[1] in finalPath and x[0] in finalPath, graph.edges())
-            )
+            redEdges = [(i, j) for i, j in zip(finalPath[:len(finalPath)], finalPath[1:])]
+            print(redEdges)
             finalPath = [node for node in finalPath if node not in source + target]
             regularNodes = [node for node in regularNodes if node not in finalPath]
         else:

@@ -8,12 +8,13 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as Navigatio
 from PyQt5 import uic, QtCore, QtGui
 from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QFileDialog
 from Utils.UndoRedoStack import UndoRedoStack
+import appGui
 
 
-class AICourseWork(QMainWindow):
+class AICourseWork(QMainWindow, appGui.Ui_Coursework):
     def __init__(self):
         super(AICourseWork, self).__init__()
-        uic.loadUi('GUI.ui', self)
+        self.setupUi(self)
         self.setAttribute(QtCore.Qt.WA_DeleteOnClose)
 
         # Setup general state parameters
