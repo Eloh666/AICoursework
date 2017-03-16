@@ -25,7 +25,13 @@ class MatPlotLibRenderer(FigureCanvas):
         self.axes.autoscale_view(True, True, True)
         self.draw_idle()
 
-    def plotGraph(self, network, finalPath=[], primaryVisited=[], secondaryVisisted=[], noPath=False, final=False):
+    def plotGraph(self,
+                  network,
+                  finalPath=[],
+                  primaryVisited=[],
+                  secondaryVisisted=[],
+                  noPath=False,
+                  final=False):
 
         graph = network.graph
         source = network.source
